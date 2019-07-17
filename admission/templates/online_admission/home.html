@@ -1,0 +1,470 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mautech Online Admission</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<header class="header">
+		<span>
+			<h1 class="title">Mautech POST UTME / DE Application</h1>
+		</span>	
+		<span>
+			<a href="/admin/admission/onlineadmission/">Login</a>
+		</span>
+	</header>
+<div class="tabset">
+  <!-- Tab 1 -->
+  <input type="radio" name="tabset" id="de" aria-controls="DE" checked>
+  <label for="de">DIRECT ENTRY (DE)</label>
+  <!-- Tab 2 -->
+  <input type="radio" name="tabset" id="jamb" aria-controls="jamb">
+  <label for="jamb">UTME (JAMB)</label>
+
+   <!-- Tab 3 -->
+  <input type="radio" name="tabset" id="search" aria-controls="search">
+  <label for="search">CHECK ADMISSION STATUS</label>
+
+  <div class="tab-panels">
+    <section id="DE" class="tab-panel">
+    	{% if request.session.code %}
+    	<div class="alert">
+		  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+		 You've successfully applied, Your code is: <b style="color: #ccc">{{ request.session.code }}</b>, use it to check admission
+		</div>
+		{% endif %}
+      	<form method="POST" class="form-inline" action="{% url 'submit_application' %}">
+      		{% csrf_token %}
+      		<div>
+		  		<h2>Personal Information</h2>
+				
+				<input type="text" placeholder="Firstname" name="fname">
+				<input type="text" placeholder="Surname" name="sname">
+				<input type="text" placeholder="Othername" name="oname">
+				<select name="gender">
+					<option selected disabled>Select Gender</option>
+					<option>Male</option>
+					<option>Female</option>
+				</select>
+				<select name="religion">
+					<option selected disabled>Select Religion</option>
+					<option>Islam</option>
+					<option>Christianity</option>
+					<option>Other</option>
+				</select>
+				<input type="date" placeholder="Date of birth" name="dob">
+				<input type="text" hidden  value="DE" name="mode_of_entry">
+				<input type="text" placeholder="Phone Number" name="phone_no">
+				<input type="email" placeholder="Email Address" name="email">
+				
+			</div>
+			<div>
+		  		<h2>Education History</h2>
+		  		<select id="ssce_certificate" name="certificate">
+					<option selected disabled>SSE Certificate</option>
+					<option value="WAEC">WAEC</option>
+					<option value="NECO">NECO</option>
+					<option value="NABTEB">NABTEB</option>
+				</select>
+				<input type="text" placeholder="Secondary School Attended" name="sec_attended">
+				<input type="text" placeholder="From" name="sec_from">
+				<input type="text" placeholder="To" name="sec_to">
+
+				<input type="text" placeholder="Primary School Attended" name="pri_attended">
+				<input type="text" placeholder="From" name="pri_from">
+				<input type="text" placeholder="To" name="pri_to">
+			</div>
+			<div id="grade_history" hidden>
+		  		<h3>Grade Information For <span id="selected_certficate"></span></h3>
+		  		<div>
+		  			<input readonly name="s1" style="cursor: not-allowed; background-color: #0cc; color: #fff" type="text" value="English Language">
+					<select name="s1_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input readonly style="cursor: not-allowed; background-color: #0cc; color: #fff" type="text" value="Mathematics" name="s2">
+					<select name="s2_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s3">
+					<select name="s3_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s4">
+					<select name="s4_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s5">
+					<select name="s5_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s6">
+					<select name="s6_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s7">
+					<select name="s7_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s8">
+					<select name="s8_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s9">
+					<select name="s9_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<button style="width: 415px" type="submit">Submit Application</button>
+			</div>
+		<div>
+	</div>
+	</form>
+
+    </section>
+    <section id="jamb" class="tab-panel">
+		{% if request.session.code %}
+    	<div class="alert">
+		  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+		 You've successfully applied, Your code is: <b style="color: #ccc">{{ request.session.code }}</b>, use it to check admission
+		</div>
+		{% endif %}
+      	<form method="POST" class="form-inline" action="{% url 'submit_application' %}">
+      		{% csrf_token %}
+      		<div>
+		  		<h2>Personal Information</h2>
+				
+				<input type="text" placeholder="Firstname" name="fname">
+				<input type="text" placeholder="Surname" name="sname">
+				<input type="text" placeholder="Othername" name="oname">
+				<select name="gender">
+					<option selected disabled>Select Gender</option>
+					<option>Male</option>
+					<option>Female</option>
+				</select>
+				<select name="religion">
+					<option selected disabled>Select Religion</option>
+					<option>Islam</option>
+					<option>Christianity</option>
+					<option>Other</option>
+				</select>
+				<input type="date" placeholder="Date of birth" name="dob">
+				<input type="text" hidden  value="UTME" name="mode_of_entry">
+				<input type="text" placeholder="Phone Number" name="phone_no">
+				<input type="email" placeholder="Email Address" name="email">
+				
+			</div>
+			<div>
+		  		<h2>Education History</h2>
+		  		<select id="ssce_certificate" name="certificate">
+					<option selected disabled>SSE Certificate</option>
+					<option value="WAEC">WAEC</option>
+					<option value="NECO">NECO</option>
+					<option value="NABTEB">NABTEB</option>
+				</select>
+				<input type="text" placeholder="Secondary School Attended" name="sec_attended">
+				<input type="text" placeholder="From" name="sec_from">
+				<input type="text" placeholder="To" name="sec_to">
+
+				<input type="text" placeholder="Primary School Attended" name="pri_attended">
+				<input type="text" placeholder="From" name="pri_from">
+				<input type="text" placeholder="To" name="pri_to">
+			</div>
+			<div id="grade_history" hidden>
+		  		<h3>Grade Information For <span id="selected_certficate"></span></h3>
+		  		<div>
+		  			<input readonly name="s1" style="cursor: not-allowed; background-color: #0cc; color: #fff" type="text" value="English Language">
+					<select name="s1_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input readonly style="cursor: not-allowed; background-color: #0cc; color: #fff" type="text" value="Mathematics" name="s2">
+					<select name="s2_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s3">
+					<select name="s3_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s4">
+					<select name="s4_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s5">
+					<select name="s5_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s6">
+					<select name="s6_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s7">
+					<select name="s7_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s8">
+					<select name="s8_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<div>
+		  			<input type="text" placeholder="Enter any other subject" name="s9">
+					<select name="s9_grade">
+						<option selected disabled>Choose Grade</option>
+						<option value="A1">A1</option>
+						<option value="B2">B2</option>
+						<option value="B3">B3</option>
+						<option value="B3">C4</option>
+						<option value="C5">C5</option>
+						<option value="C6">C6</option>
+						<option value="D7">D7</option>
+						<option value="E8">E8</option>
+						<option value="F9">F9</option>
+					</select>
+		  		</div>
+		  		<button style="width: 415px" type="submit">Submit Application</button>
+			</div>
+		<div>
+	</div>
+	</form>
+    </section>
+    <section id="search" class="tab-panel">
+    	<div hidden id="search_results" class="alert"></div>
+        <div class="searchBox">
+        	<form method="get" action="{% url 'search_admission' %}">{% csrf_token %}
+        		<input class="searchInput" type="text" name="q" placeholder="Search">
+        		<button class="searchButton" type="submit">Search</button>
+        	</form>
+        </div>
+
+		<div hidden id="loader" class="view">
+		  <div class="plane main">
+		    <div class="circle"></div>
+		    <div class="circle"></div>
+		    <div class="circle"></div>
+		    <div class="circle"></div>
+		    <div class="circle"></div>
+		    <div class="circle"></div>
+		  </div>
+		</div>
+		    </section>
+  </div>
+</div>  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#ssce_certificate").change(function(){
+			$("#grade_history").show();
+			$("#selected_certficate").text(this.value);
+		});
+
+		$(".searchButton").click(function(e){
+			e.preventDefault()
+			var data = $(".searchInput").val()
+			$.ajax({
+				url: '/search/',
+				data: {
+					'data': data
+				},
+
+				beforeSend: function(){
+					$("#loader").removeAttr('hidden')
+				},
+
+				complete: function(){
+					$("#loader").hide()
+				},
+				success: function(data){
+					$("#search_results").show();
+					$("#search_results").html(data);
+				}
+			});
+		});
+	});
+</script>
+</body>
+</html>
